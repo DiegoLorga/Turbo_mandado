@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Apps individuales
-    path('login/', include('login_registro.urls')),                  # App de Login y Registro
+    path('', include('login_registro.urls')),  # App de Login y Registro
+    path('dashboard/',include('dashboard.urls'))      # App de pagina principal
 
 ]

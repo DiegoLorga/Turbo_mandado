@@ -3,7 +3,7 @@ from .models import Usuario
 
 # usuarios/admin.py
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'apellidos', 'correo',)
+    list_display = ('nombre', 'apellidos', 'correo','password')
     search_fields = ('nombre', 'apellidos', 'correo')
     list_filter = ('correo',)
 
