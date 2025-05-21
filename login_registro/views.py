@@ -6,6 +6,9 @@ from django.contrib.auth.hashers import make_password, check_password
 def login_view(request):
     return render(request,"login/login.html")
 
+def menu_principal(request):
+    return render(request,"login/menu.html")
+
 def registro_usuario(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -16,7 +19,7 @@ def registro_usuario(request):
         if nombre and apellidos and correo and password:
             if Usuario.objects.filter(correo=correo).exists():
                 context = {'error': "Este correo ya está registrado."}
-                return render(request, 'login.html', context)
+                return render(request, 'login/login.html', context)
             else:
                 usuario = Usuario.objects.create(
                     nombre=nombre,
@@ -31,21 +34,27 @@ def registro_usuario(request):
                 #return redirect('menu_principal')
     return render(request, 'login/login.html')
 
+
 def login_usuario(request):
+    print(">>> Se llamó a la vista de login")
     context = {}
 
     if request.method == 'POST':
+        print(">>> Formulario recibido con POST")
         correo = request.POST.get('correo')
         password = request.POST.get('password')
+        print(correo)
 
         try:
             usuario = Usuario.objects.get(correo=correo)
             if check_password(password, usuario.password):
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.nombre
-                #return redirect('menu_principal')
+                print(f"[LOGIN CORRECTO] Usuario: {usuario.nombre}, ID: {usuario.id}")
+                return redirect('login/menu_principal')  # <--- ¡REDIRECCIÓN REAL AQUÍ!
             else:
                 context['error_login'] = "Contraseña incorrecta."
+                print("contrasena incorrecta")
         except Usuario.DoesNotExist:
             context['error_login'] = "Este usuario no tiene una cuenta registrada."
 
