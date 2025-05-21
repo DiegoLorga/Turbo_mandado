@@ -18,6 +18,7 @@ def registro_usuario(request):
 
         if nombre and apellidos and correo and password:
             if Usuario.objects.filter(correo=correo).exists():
+                print("Correo invalido")
                 context = {'error': "Este correo ya está registrado."}
                 return render(request, 'login/login.html', context)
             else:
@@ -31,7 +32,7 @@ def registro_usuario(request):
                 # Loguear automáticamente al usuario
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.nombre
-                #return redirect('menu_principal')
+                return redirect('dashboard.html')
     return render(request, 'login/login.html')
 
 
@@ -44,6 +45,7 @@ def login_usuario(request):
         correo = request.POST.get('correo')
         password = request.POST.get('password')
         print(correo)
+        print(password)
 
         try:
             usuario = Usuario.objects.get(correo=correo)
@@ -51,7 +53,7 @@ def login_usuario(request):
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.nombre
                 print(f"[LOGIN CORRECTO] Usuario: {usuario.nombre}, ID: {usuario.id}")
-                return redirect('login/menu_principal')  # <--- ¡REDIRECCIÓN REAL AQUÍ!
+                return redirect('dashboard/dashboard.html')  # <--- ¡REDIRECCIÓN REAL AQUÍ!
             else:
                 context['error_login'] = "Contraseña incorrecta."
                 print("contrasena incorrecta")
