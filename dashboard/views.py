@@ -1,5 +1,11 @@
 from django.shortcuts import render
 
-# Create your views here.
 def dashboard_view(request):
-    return render(request, "dashboard/dashboard.html")
+    usuario_id = request.session.get('usuario_id')
+    usuario_nombre = request.session.get('usuario_nombre')
+    context = {
+        'usuario_id': usuario_id,
+        'usuario_nombre': usuario_nombre,
+    }
+    return render(request, 'dashboard/dashboard.html', context)
+

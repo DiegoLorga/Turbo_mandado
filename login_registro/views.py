@@ -32,7 +32,7 @@ def registro_usuario(request):
                 # Loguear automáticamente al usuario
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.nombre
-                return redirect('dashboard.html')
+                return redirect('dashboard_view')  # redirección a la vista con name="dashboard"
     return render(request, 'login/login.html')
 
 
@@ -53,8 +53,7 @@ def login_usuario(request):
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nombre'] = usuario.nombre
                 print(f"[LOGIN CORRECTO] Usuario: {usuario.nombre}, ID: {usuario.id}")
-                return redirect('dashboard/dashboard.html')  # <--- ¡REDIRECCIÓN REAL AQUÍ!
-            else:
+                return redirect('dashboard_view')  # redirección a la vista con name="dashboard"
                 context['error_login'] = "Contraseña incorrecta."
                 print("contrasena incorrecta")
         except Usuario.DoesNotExist:
