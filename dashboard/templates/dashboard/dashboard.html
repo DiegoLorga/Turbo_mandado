@@ -1,12 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina principak</title>
+    <title>Turbo Mandados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amatica+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'dashboard/css/principal.css' %}">
 </head>
+
+
 <body>
-    <h1>Holaaaaaaaaaaaa, esta es la pagina principal</h1>
-    
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <img src="{% static 'dashboard/images/logo.png' %}" alt="Logo" class="logo">
+            <span class="brand-name">Turbo Mandados</span>
+        </div>
+        <div class="navbar-right">
+            <button class="btn login-btn">Iniciar sesión</button>
+            <button class="btn register-btn">Regístrate</button>
+        </div>
+    </header>
+
+    <!-- Hero / Encabezado principal -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Entre compas, nos echamos la mano.</h1>
+        </div>
+
+        <div class="hero-form">
+            <!-- Input con ícono de ubicación -->
+            <div class="input-icon">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" class="input-point" placeholder="Ingresa punto de entrega">
+            </div>
+
+            <!-- Select con ícono de reloj -->
+            <div class="input-icon">
+                <i class="fas fa-clock"></i>
+                <select class="select-time">
+                    <option>Entregar ahora</option>
+                    <option>En 30 minutos</option>
+                    <option>En 1 hora</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="hero-image">
+            <img src="{% static 'dashboard/images/caracol.png' %}" alt="Caracol repartidor" class="mascot-image">
+        </div>
+    </section>
+
+
+
+    <section class="benefits">
+  <div class="benefit-card">
+    <img src="{% static 'dashboard/images/image1.png' %}" alt="Repartidor feliz" class="benefit-img">
+    <div class="benefit-text">
+      <h3>¡Tú haces el paro, nosotros te premiamos!</h3>
+      <a href="#">Regístrate para realizar entregas</a>
+    </div>
+  </div>
+
+  <div class="benefit-card">
+    <img src="{% static 'dashboard/images/image2.png' %}" alt="Persona feliz" class="benefit-img">
+    <div class="benefit-text">
+      <h3>¿Te falta algo? Pídelo y relájate.</h3>
+      <a href="#">Regístrate</a>
+    </div>
+  </div>
+</section>
+
+
+
+    <section class="delivery-points">
+  <h2>Puntos de entrega en la UTM</h2>
+  <div class="campus-grid">
+    <ul>
+      <li>Entrada Principal</li>
+      <li>Biblioteca</li>
+      <li>Auditorio</li>
+      <li>Centro de Idiomas</li>
+      <li>Salas de Cómputo 1 y 2</li>
+    </ul>
+    <ul>
+      <li>CESEMO</li>
+      <li>Vicerrectoría Administrativa</li>
+      <li>Vicerrectoría Académica</li>
+      <li>Instituto de Computación</li>
+      <li>Instituto de Diseño</li>
+    </ul>
+    <ul>
+      <li>Cafetería Central</li>
+      <li>Cafetería del lado Este</li>
+      <li>Centro de Copiado</li>
+      <li>Laboratorio de Electrónica Avanzada</li>
+      <li>Instituto de Electrónica y Mecatrónica</li>
+    </ul>
+    <ul>
+      <li>Edificio de Aulas (zona azul)</li>
+      <li>Plaza Cívica</li>
+      <li>Área de Canchas</li>
+      <li>Instituto de Minas</li>
+      <li>Instituto de Agroindustrias</li>
+    </ul>
+  </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Turbo Mandados - Todos los derechos reservados</p>
+    </footer>
+
 </body>
+
 </html>
