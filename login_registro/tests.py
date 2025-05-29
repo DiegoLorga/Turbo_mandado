@@ -1,3 +1,42 @@
-from django.test import TestCase
+import pytest
+from django.urls import reverse
+from login_registro.models import Usuario
+from django.contrib.auth.hashers import make_password
 
-# Create your tests here.
+@pytest.mark.django_db
+def test_menu_principal(client):
+    response = client.get(reverse('dashboard_view'))
+    assert response.status_code == 200
+    assert b'Turbo Mandados' in response.content
+
+@pytest.mark.django_db
+def test_registro_usuario_crea_usuario(client):
+    data = {
+        'nombre': 'Juan',
+        'apellidos': 'Perez',
+        'correo': 'juan@example.com',
+        'password': '12345678'
+    }
+    response = client.post(reverse('registro_usuario'), data)
+    assert Usuario.objects.filter(correo='juan@example.com').exists()
+    assert response.status_code == 302  # Se espera redirección
+
+@pytest.mark.django_db
+def test_login_usuario_valido(client):
+    usuario = Usuario.objects.create(
+        nombre='Luis',
+        apellidos='Lopez',
+        correo='luis@example.com',
+        password=make_password('secure123')
+    )
+
+    data = {'correo': 'luis@example.com', 'password': 'secure123'}
+    response = client.post(reverse('login_usuario'), data)
+    assert response.status_code == 302
+    assert response.url == reverse('dashboard_view')  # Cambia a 'menu_principal' si es la que redirige
+
+@pytest.mark.django_db
+def test_login_usuario_invalido(client):
+    data = {'correo': 'nobody@example.com', 'password': 'wrongpass'}
+    response = client.post(reverse('login_usuario'), data)
+    assert 'cuenta registrada' in response.content.decode('utf-8') or 'Contraseña incorrecta' in response.content.decode('utf-8')
