@@ -30,7 +30,8 @@ def test_login_usuario_valido(client):
         correo='luis@example.com',
         password=make_password('secure123')
     )
-    data = {'correo': 'luis@example.com', 'password': 'secure123'}
+    dummy_pass = 'secure123'  # NOSONAR
+    data = {'correo': 'luis@example.com', 'password': dummy_pass}
     response = client.post(reverse('login_usuario'), data)
     assert response.status_code == 302
     assert response.url == reverse('dashboard_view')
