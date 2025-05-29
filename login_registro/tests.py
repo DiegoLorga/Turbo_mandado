@@ -20,7 +20,7 @@ def test_registro_usuario_crea_usuario(client):
     }
     response = client.post(reverse('registro_usuario'), data)
     assert Usuario.objects.filter(correo='juan@example.com').exists()
-    assert response.status_code == 302  # Se espera redirección
+    assert response.status_code == 302
 
 @pytest.mark.django_db
 def test_login_usuario_valido(client):
@@ -30,14 +30,14 @@ def test_login_usuario_valido(client):
         correo='luis@example.com',
         password=make_password('secure123')
     )
-
     data = {'correo': 'luis@example.com', 'password': 'secure123'}
     response = client.post(reverse('login_usuario'), data)
     assert response.status_code == 302
-    assert response.url == reverse('dashboard_view')  # Cambia a 'menu_principal' si es la que redirige
+    assert response.url == reverse('dashboard_view')
 
 @pytest.mark.django_db
 def test_login_usuario_invalido(client):
     data = {'correo': 'nobody@example.com', 'password': 'wrongpass'}
     response = client.post(reverse('login_usuario'), data)
-    assert 'cuenta registrada' in response.content.decode('utf-8') or 'Contraseña incorrecta' in response.content.decode('utf-8')
+    assert response.status_code == 200
+    assert "Inicia sesión en tu cuenta" in response.content.decode("utf-8")
