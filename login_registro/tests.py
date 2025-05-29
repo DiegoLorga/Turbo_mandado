@@ -11,11 +11,12 @@ def test_menu_principal(client):
 
 @pytest.mark.django_db
 def test_registro_usuario_crea_usuario(client):
+    dummy_password = "examplePass123!"
     data = {
         'nombre': 'Juan',
         'apellidos': 'Perez',
         'correo': 'juan@example.com',
-        'password': '12345678'
+        'password': dummy_password
     }
     response = client.post(reverse('registro_usuario'), data)
     assert Usuario.objects.filter(correo='juan@example.com').exists()
