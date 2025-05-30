@@ -41,9 +41,6 @@ INSTALLED_APPS = [
     'login_registro',
     'dashboard',
     'django_extensions',
-    'geolocalizacion',
-    'channels', 
-    'mandados',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'TurboMandado.routing.application'
+WSGI_APPLICATION = 'TurboMandado.wsgi.application'
 
 
 # Database
@@ -128,12 +125,3 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Django Channels + Redis
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
-    },
-}
