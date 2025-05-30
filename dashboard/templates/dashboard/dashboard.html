@@ -4,73 +4,81 @@
 <html lang="es">
 
 <head>
-    {% load static %}
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turbo Mandados</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amatica+SC&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  {% load static %}
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbo Mandados</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amatica+SC&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="{% static 'dashboard/css/principal.css' %}">
-    <style>
-        .mandados-section {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 1rem;
-            background: #fefefe;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .mandados-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .mandados-header h2 {
-            margin: 0;
-        }
-        .add-btn {
-            background-color: #007BFF;
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-        }
-        .form-container {
-            margin-top: 1rem;
-            display: none;
-            background: #fff;
-            padding: 1rem;
-            border-radius: 8px;
-        }
-        .form-container input, .form-container textarea {
-            width: 100%;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .form-container button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .mandado-card {
-            background: white;
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-    </style>
+  <link rel="stylesheet" href="{% static 'dashboard/css/principal.css' %}">
+  <style>
+    .mandados-section {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 1rem;
+      background: #fefefe;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mandados-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mandados-header h2 {
+      margin: 0;
+    }
+
+    .add-btn {
+      background-color: #007BFF;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .form-container {
+      margin-top: 1rem;
+      display: none;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .form-container button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .mandado-card {
+      background: white;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 
 
@@ -78,139 +86,177 @@
 
 <body>
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <img src="{% static 'dashboard/images/logo.png' %}" alt="Logo" class="logo">
-            <span class="brand-name">Turbo Mandados</span>
-        </div>
-        <div class="navbar-right">
-            <button class="btn login-btn">Iniciar sesión</button>
-            
-        </div>
-    </header>
-
-    <!-- Hero / Encabezado principal -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Entre compas, nos echamos la mano.</h1>
-        </div>
-
-        <div class="hero-form">
-            <!-- Input con ícono de ubicación -->
-            <div class="input-icon">
-                <i class="fas fa-map-marker-alt"></i>
-                <input type="text" class="input-point" placeholder="Ingresa punto de entrega">
-            </div>
-
-            <!-- Select con ícono de reloj -->
-            <div class="input-icon">
-                <i class="fas fa-clock"></i>
-                <select class="select-time">
-                    <option>Entregar ahora</option>
-                    <option>En 30 minutos</option>
-                    <option>En 1 hora</option>
-                </select>
-            </div>
-        </div>
-
-
-        <div class="hero-image">
-            <img src="{% static 'dashboard/images/caracol.png' %}" alt="Caracol repartidor" class="mascot-image">
-        </div>
-    </section>
-
-
-{% if not usuario_id %}
-<section class="benefits">
-  <div class="benefit-card">
-    <img src="{% static 'dashboard/images/image1.png' %}" alt="Repartidor feliz" class="benefit-img">
-    <div class="benefit-text">
-      <h3>¡Tú haces el paro, nosotros te premiamos!</h3>
-      <a href="/login/">Regístrate para realizar entregas</a>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <img src="{% static 'dashboard/images/logo.png' %}" alt="Logo" class="logo">
+      <span class="brand-name">Turbo Mandados</span>
     </div>
-  </div>
-
-  <div class="benefit-card">
-    <img src="{% static 'dashboard/images/image2.png' %}" alt="Persona feliz" class="benefit-img">
-    <div class="benefit-text">
-      <h3>¿Te falta algo? Pídelo y relájate.</h3>
-      <a href="/login/">Regístrate</a>
+    {% if usuario_id %}
+    <div class="navbar-center">
+      <span class="welcome-message">¡Hola, {{ usuario_nombre }}!</span>
     </div>
-  </div>
-</section>
-{% endif %}
+    {% else %}
+    {% if not usuario_id %}
+    <div class="navbar-right">
+      <button class="btn login-btn">Iniciar sesión</button>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="navbar-right">
+      <a href="{% url 'perfil' %}" class="btn login-btn"><i class="fa fa-user"></i> Perfil</a>
+      {% if usuario_id %}
+      <a href="{% url 'logout' %}" class="btn login-btn"><i class="fa fa-sign-out-alt"></i> Cerrar sesión</a>
+      {% endif %}
+    </div>
+  </header>
 
-{% if usuario_id %}
-<section class="mandados-section">
+  <!-- Hero / Encabezado principal -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Entre compas, nos echamos la mano.</h1>
+    </div>
+
+    <div class="hero-form">
+      <!-- Input con ícono de ubicación -->
+      <div class="input-icon">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" class="input-point" placeholder="Ingresa punto de entrega">
+      </div>
+
+      <!-- Select con ícono de reloj -->
+      <div class="input-icon">
+        <i class="fas fa-clock"></i>
+        <select class="select-time">
+          <option>Entregar ahora</option>
+          <option>En 30 minutos</option>
+          <option>En 1 hora</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="hero-image">
+      <img src="{% static 'dashboard/images/caracol.png' %}" alt="Caracol repartidor" class="mascot-image">
+    </div>
+  </section>
+
+
+  {% if not usuario_id %}
+  <section class="benefits">
+    <div class="benefit-card">
+      <img src="{% static 'dashboard/images/image1.png' %}" alt="Repartidor feliz" class="benefit-img">
+      <div class="benefit-text">
+        <h3>¡Tú haces el paro, nosotros te premiamos!</h3>
+        <a href="/login/">Regístrate para realizar entregas</a>
+      </div>
+    </div>
+
+    <div class="benefit-card">
+      <img src="{% static 'dashboard/images/image2.png' %}" alt="Persona feliz" class="benefit-img">
+      <div class="benefit-text">
+        <h3>¿Te falta algo? Pídelo y relájate.</h3>
+        <a href="/login/">Regístrate</a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if usuario_id %}
+  <section class="mandados-section">
     <div class="mandados-header">
-        <h2>Mandados</h2>
-        <button class="add-btn" onclick="toggleForm()"><i class="fas fa-plus"></i></button>
+      <h2>Mandados</h2>
+      <button class="add-btn" onclick="toggleForm()"><i class="fas fa-plus"></i></button>
     </div>
     <div class="form-container" id="mandadoForm">
-        <input type="text" id="titulo" placeholder="Título del mandado" required>
-        <textarea id="descripcion" placeholder="Descripción" rows="3"></textarea>
-        <input type="number" id="precio" placeholder="Precio estimado" required>
-        <input type="text" id="contacto" placeholder="Número de contacto" required>
-        <button onclick="publicarMandado()">Publicar</button>
+      <input type="text" id="titulo" placeholder="Título del mandado" required>
+      <textarea id="descripcion" placeholder="Descripción" rows="3"></textarea>
+      <input type="number" id="precio" placeholder="Precio estimado" required>
+      <input type="text" id="contacto" placeholder="Número de contacto" required>
+      <button onclick="publicarMandado()">Publicar</button>
     </div>
-    <div id="mandadosList"></div>
-</section>
-{% endif %}
+    <div id="mandadosList">
+      {% for mandado in mandados %}
+      <div class="mandado-card">
+        <h3>{{ mandado.titulo }}</h3>
+        <p><strong>Descripción:</strong> {{ mandado.descripcion }}</p>
+        <p><strong>Precio:</strong> ${{ mandado.costo }}</p>
+        <p><strong>Contacto:</strong> {{ mandado.numContacto }}</p>
+        {% if not mandado.repartidor %}
+        <a href="{% url 'aceptar_mandado' mandado.id %}" class="btn btn-primary">Aceptar mandado</a>
+        {% else %}
+        <p><strong>Ya fue aceptado</strong></p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
 
-    <section class="delivery-points">
-  <h2>Puntos de entrega en la UTM</h2>
-  <div class="campus-grid">
-    <ul>
-      <li>Entrada Principal</li>
-      <li>Biblioteca</li>
-      <li>Auditorio</li>
-      <li>Centro de Idiomas</li>
-      <li>Salas de Cómputo 1 y 2</li>
-    </ul>
-    <ul>
-      <li>CESEMO</li>
-      <li>Vicerrectoría Administrativa</li>
-      <li>Vicerrectoría Académica</li>
-      <li>Instituto de Computación</li>
-      <li>Instituto de Diseño</li>
-    </ul>
-    <ul>
-      <li>Cafetería Central</li>
-      <li>Cafetería del lado Este</li>
-      <li>Centro de Copiado</li>
-      <li>Laboratorio de Electrónica Avanzada</li>
-      <li>Instituto de Electrónica y Mecatrónica</li>
-    </ul>
-    <ul>
-      <li>Edificio de Aulas (zona azul)</li>
-      <li>Plaza Cívica</li>
-      <li>Área de Canchas</li>
-      <li>Instituto de Minas</li>
-      <li>Instituto de Agroindustrias</li>
-    </ul>
-  </div>
-</section>
+  <section class="delivery-points">
+    <h2>Puntos de entrega en la UTM</h2>
+    <div class="campus-grid">
+      <ul>
+        <li>Entrada Principal</li>
+        <li>Biblioteca</li>
+        <li>Auditorio</li>
+        <li>Centro de Idiomas</li>
+        <li>Salas de Cómputo 1 y 2</li>
+      </ul>
+      <ul>
+        <li>CESEMO</li>
+        <li>Vicerrectoría Administrativa</li>
+        <li>Vicerrectoría Académica</li>
+        <li>Instituto de Computación</li>
+        <li>Instituto de Diseño</li>
+      </ul>
+      <ul>
+        <li>Cafetería Central</li>
+        <li>Cafetería del lado Este</li>
+        <li>Centro de Copiado</li>
+        <li>Laboratorio de Electrónica Avanzada</li>
+        <li>Instituto de Electrónica y Mecatrónica</li>
+      </ul>
+      <ul>
+        <li>Edificio de Aulas (zona azul)</li>
+        <li>Plaza Cívica</li>
+        <li>Área de Canchas</li>
+        <li>Instituto de Minas</li>
+        <li>Instituto de Agroindustrias</li>
+      </ul>
+    </div>
+  </section>
 
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 Turbo Mandados - Todos los derechos reservados</p>
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Turbo Mandados - Todos los derechos reservados</p>
+  </footer>
+  <script>
+    document.querySelector('.login-btn').addEventListener('click', function () {
+      window.location.href = '/login/'; // ajusta si usas una URL distinta
+    });
+  </script>
 <script>
-  document.querySelector('.login-btn').addEventListener('click', function () {
-    window.location.href = '/login/'; // ajusta si usas una URL distinta
-  });
-</script>
-<script>
-  document.querySelector('.login-btn').addEventListener('click', function () {
-    window.location.href = '/login/';
-  });
-
   function toggleForm() {
     const form = document.getElementById('mandadoForm');
     form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+  }
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
   }
 
   function publicarMandado() {
@@ -224,21 +270,33 @@
       return;
     }
 
-    const card = document.createElement('div');
-    card.className = 'mandado-card';
-    card.innerHTML = `
-      <h3>${titulo}</h3>
-      <p><strong>Descripción:</strong> ${descripcion}</p>
-      <p><strong>Precio:</strong> $${precio}</p>
-      <p><strong>Contacto:</strong> ${contacto}</p>
-    `;
-    document.getElementById('mandadosList').prepend(card);
+    fetch('/mandados/crear/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: `titulo=${encodeURIComponent(titulo)}&descripcion=${encodeURIComponent(descripcion)}&costo=${precio}&numContacto=${encodeURIComponent(contacto)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        location.reload();
+      } else {
+        alert(data.mensaje);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Ocurrió un error al crear el mandado.');
+    });
+  }
 
-    document.getElementById('titulo').value = '';
-    document.getElementById('descripcion').value = '';
-    document.getElementById('precio').value = '';
-    document.getElementById('contacto').value = '';
-    toggleForm();
+  const loginBtn = document.querySelector('.login-btn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function () {
+      window.location.href = '/login/';
+    });
   }
 </script>
 

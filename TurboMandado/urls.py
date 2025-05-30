@@ -22,6 +22,7 @@ urlpatterns = [
 
     # Apps individuales
     path('login/', include('login_registro.urls')),  # App de Login y Registro
-    path('',include('dashboard.urls'))      # App de pagina principal
-
+    path('',include('dashboard.urls')),      # App de pagina principal
+    path('mandados/', include('mandados.urls')),
+    path('geolocalizacion/', include('geolocalizacion.urls'))  # App de geolocalización
 ]

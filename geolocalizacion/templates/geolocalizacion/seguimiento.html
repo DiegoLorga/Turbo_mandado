@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seguimiento en vivo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 90vh; width: 100%; }
+    </style>
+</head>
+<body>
+    <h2>Ubicación en tiempo real</h2>
+    <div id="map"></div>
+
+    <script>
+        let map;
+        let clienteMarker;
+        let repartidorMarker;
+
+        const repartidorID = {{ repartidor_id|safe }};
+        //Si ven esto corranme
+        // no es un error, es una broma de programador 
+        // jajajajaja 
+        // Obtener ubicación del cliente en tiempo reallllll
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const clienteLat = position.coords.latitude;
+            const clienteLng = position.coords.longitude;
+
+            // Inicializar mapa centrado en cliente
+            map = L.map('map').setView([clienteLat, clienteLng], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+            // Marcador del cliente
+            clienteMarker = L.marker([clienteLat, clienteLng], {
+                icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/1077/1077012.png', iconSize: [30, 30] })
+            }).addTo(map).bindPopup("Tú (cliente)").openPopup();
+
+            // Marcador del repartidor (posición inicial temporal)
+            repartidorMarker = L.marker([clienteLat, clienteLng], {
+                icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [30, 30] })
+            }).addTo(map).bindPopup("Repartidor");
+        }, function(error) {
+            alert("No se pudo obtener tu ubicación. Habilita permisos de GPS.");
+        });
+
+        // Conexión WebSocket para recibir ubicación del repartidor
+        const socket = new WebSocket(`ws://localhost:8000/ws/ubicacion/${repartidorID}/`);
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const lat = data.lat;
+            const lng = data.lng;
+
+            if (repartidorMarker) {
+                repartidorMarker.setLatLng([lat, lng]);
+            }
+        };
+
+        socket.onopen = () => console.log(" WebSocket conectado");
+        socket.onerror = e => console.error(" WebSocket error:", e);
+    </script>
+</body>
+</html>

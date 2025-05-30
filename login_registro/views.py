@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Usuario
+from mandados.models import Mandado
 from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
@@ -37,6 +38,54 @@ def registro_usuario(request):
 
 
 def login_usuario(request):
+    print(">>> Se llamó a la vista de login")
+    context = {}
+
+    if request.method == 'POST':
+        print(">>> Formulario recibido con POST")
+        correo = request.POST.get('correo')
+        password = request.POST.get('password')
+        print(correo)
+        print(password)
+
+        try:
+            usuario = Usuario.objects.get(correo=correo)
+            if check_password(password, usuario.password):
+                #  Guardar en sesión
+                request.session['usuario_id'] = usuario.id
+                request.session['usuario_nombre'] = usuario.nombre
+                print(f"[LOGIN CORRECTO] Usuario: {usuario.nombre}, ID: {usuario.id}")
+                return redirect('dashboard_view')
+            else:
+                #  Contraseña incorrecta
+                context['error_login'] = "Contraseña incorrecta."
+                print(">>> Contraseña incorrecta")
+        except Usuario.DoesNotExist:
+            context['error_login'] = "Este usuario no tiene una cuenta registrada."
+            print(">>> Usuario no encontrado")
+
+    return render(request, 'login/login.html', context)
+# Vista para mostrar el perfil del usuario
+def perfil_view(request):
+    usuario_id = request.session.get('usuario_id')
+    if not usuario_id:
+        return redirect('login_view')
+    
+    usuario = Usuario.objects.get(id=usuario_id)
+    #Esta es la lista de mandados que ha pedido el usuario
+    mandados_creados = Mandado.objects.filter(idUsuario=usuario).order_by('-fecha')
+    #Esta es la lista de mandados que ha tomado el repartidor
+    mandados_repartidos = Mandado.objects.filter(repartidor=usuario).order_by('-fecha')
+    return render(request, 'login/perfil.html', {
+        'usuario': usuario,
+        'mandados_creados': mandados_creados,
+        'mandados_repartidos': mandados_repartidos
+    })
+
+def logout_view(request):
+    request.session.flush()  # Elimina los datos de la sesión
+    return redirect('login_view')
+
     print(">>> Se llamó a la vista de login")
     context = {}
 
